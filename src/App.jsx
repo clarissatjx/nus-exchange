@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import { StarredProvider } from './hooks/StarredContext.jsx';
 import Header from './components/Header.jsx';
 import Home from './pages/Home.jsx';
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/mappings/:idx" element={<Detail />} />
         </Routes>
       </div>
+      <Analytics />
     </StarredProvider>
   );
 }
