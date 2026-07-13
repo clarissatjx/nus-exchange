@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMappings } from '../hooks/useMappings.js';
 import { computeStats, groupUniversitiesByCountry } from '../lib/mappings.js';
+import { countryContinent } from '../lib/continents.js';
+import WorldMap from '../components/WorldMap.jsx';
 import Loading from '../components/Loading.jsx';
 
 export default function Browse() {
@@ -9,6 +11,7 @@ export default function Browse() {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const query = params.get('q') || '';
+  const continent = params.get('continent') || '';
 
   const stats = useMemo(() => (records ? computeStats(records) : null), [records]);
   const groups = useMemo(
@@ -16,11 +19,17 @@ export default function Browse() {
     [records],
   );
 
+  const continentsWithData = useMemo(
+    () => new Set(groups.map((g) => countryContinent(g.country)).filter(Boolean)),
+    [groups],
+  );
+
   const filteredGroups = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return groups;
     return groups
+      .filter((g) => !continent || countryContinent(g.country) === continent)
       .map((g) => {
+        if (!q) return g;
         const countryMatches = g.country.toLowerCase().includes(q);
         const universities = countryMatches
           ? g.universities
@@ -28,7 +37,7 @@ export default function Browse() {
         return { ...g, universities };
       })
       .filter((g) => g.universities.length > 0);
-  }, [groups, query]);
+  }, [groups, query, continent]);
 
   const matchCount = useMemo(
     () => filteredGroups.reduce((sum, g) => sum + g.universities.length, 0),
@@ -39,6 +48,13 @@ export default function Browse() {
     const next = new URLSearchParams(params);
     if (value) next.set('q', value);
     else next.delete('q');
+    setParams(next, { replace: true });
+  }
+
+  function toggleContinent(c) {
+    const next = new URLSearchParams(params);
+    if (continent === c) next.delete('continent');
+    else next.set('continent', c);
     setParams(next, { replace: true });
   }
 
@@ -60,7 +76,15 @@ export default function Browse() {
         className="w-full rounded-[10px] border border-border-input bg-white px-4 py-3 text-sm text-ink outline-none focus:border-accent"
       />
 
-      {query && (
+      <div className="mt-6 rounded-xl border border-border bg-white p-4">
+        <WorldMap
+          activeContinent={continent}
+          continentsWithData={continentsWithData}
+          onSelectContinent={toggleContinent}
+        />
+      </div>
+
+      {(query || continent) && (
         <div className="my-2.5 text-[12.5px] text-muted-3">
           {matchCount} universit{matchCount === 1 ? 'y' : 'ies'} found
         </div>
@@ -71,7 +95,7 @@ export default function Browse() {
           No universities found. Try a different search.
         </div>
       ) : (
-        <div className={`flex flex-col gap-8 ${query ? '' : 'mt-9'}`}>
+        <div className={`flex flex-col gap-8 ${query || continent ? '' : 'mt-9'}`}>
           {filteredGroups.map((g) => (
             <div key={g.country}>
               <div className="mb-2.5 text-[13px] font-bold uppercase tracking-wide text-muted-2">
