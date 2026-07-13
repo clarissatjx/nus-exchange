@@ -26,13 +26,15 @@ export default function ResultCard({ record }) {
         <div className="flex-none text-[15px] text-border-input max-sm:hidden">⇄</div>
         <div className="min-w-0 flex-1 text-right max-sm:text-left">
           <div className="flex flex-wrap items-baseline justify-end gap-2 max-sm:justify-start">
-            <span className="text-[13px] text-muted">{record.puCourse1Title}</span>
+            <span className="text-[13px] text-muted max-sm:order-3">{record.puCourse1Title}</span>
             {record.puCourse2 && (
-              <span className="rounded bg-accent-bg px-1.5 py-0.5 text-[10px] font-bold text-accent-hover">
+              <span className="rounded bg-accent-bg px-1.5 py-0.5 text-[10px] font-bold text-accent-hover max-sm:order-2">
                 +1 overseas mod
               </span>
             )}
-            <span className="text-[13.5px] font-bold text-ink">{record.puCourse1}</span>
+            <span className="text-[13.5px] font-bold text-ink max-sm:order-1">
+              {record.puCourse1}
+            </span>
           </div>
           <div className="mt-1 text-xs text-muted-3">
             {record.partnerUni} · {record.country}
