@@ -11,7 +11,7 @@ export default function Home() {
 
   const stats = useMemo(() => (records ? computeStats(records) : null), [records]);
   const topCountries = useMemo(
-    () => (records ? groupByCountry(records).slice(0, 6) : []),
+    () => (records ? groupByCountry(records).slice(0, 8) : []),
     [records],
   );
 
@@ -74,13 +74,13 @@ export default function Home() {
             See all universities →
           </button>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="grid grid-cols-4 gap-3 max-sm:grid-cols-2">
           {topCountries.map((c) => (
             <button
               key={c.country}
               type="button"
               onClick={() => navigate(`/search?country=${encodeURIComponent(c.country)}`)}
-              className="min-w-[140px] rounded-xl border border-border bg-white px-[18px] py-3.5 text-left hover:border-border-input"
+              className="rounded-xl border border-border bg-white px-[18px] py-3.5 text-left hover:border-border-input"
             >
               <div className="text-sm font-bold">{c.country}</div>
               <div className="mt-0.5 text-xs text-muted-2">
