@@ -96,9 +96,9 @@ export default function Detail() {
         </div>
       )}
 
-      <div className="flex flex-wrap items-stretch gap-5">
+      <div className="flex items-stretch gap-5 max-sm:flex-col">
         <ModuleCard label="NUS module" courses={nusCourses} />
-        <div className="flex items-center justify-center text-xl text-border-input max-sm:w-full max-sm:rotate-90 max-sm:py-1">
+        <div className="flex flex-none items-center justify-center self-center text-xl text-border-input max-sm:rotate-90">
           ⇄
         </div>
         <ModuleCard label="Overseas module" courses={puCourses} />
