@@ -45,7 +45,7 @@ export default function Home() {
             onChange={(e) => setHomeQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && submitSearch()}
             placeholder="Try a course code, e.g. CS2103, or a university"
-            className="flex-1 rounded-[10px] border border-border-input bg-white px-4 py-3.5 text-sm text-ink shadow-sm outline-none focus:border-accent"
+            className="min-w-0 flex-1 rounded-[10px] border border-border-input bg-white px-4 py-3.5 text-sm text-ink shadow-sm outline-none focus:border-accent"
           />
           <button
             type="button"

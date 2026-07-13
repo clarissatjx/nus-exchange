@@ -36,10 +36,10 @@ export default function Browse() {
                   key={u.name}
                   type="button"
                   onClick={() => navigate(`/search?uni=${encodeURIComponent(u.name)}`)}
-                  className="flex items-center justify-between rounded-xl border border-border bg-white px-[18px] py-[15px] text-left hover:border-border-input"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-border bg-white px-[18px] py-[15px] text-left hover:border-border-input max-sm:flex-col max-sm:items-start max-sm:gap-1"
                 >
                   <div className="text-sm font-semibold">{u.name}</div>
-                  <div className="text-[12.5px] text-muted-3">
+                  <div className="whitespace-nowrap text-[12.5px] text-muted-3">
                     {u.count} mapping{u.count === 1 ? '' : 's'} →
                   </div>
                 </button>

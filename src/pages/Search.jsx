@@ -95,7 +95,7 @@ export default function Search() {
           value={query}
           onChange={(e) => updateParam('q', e.target.value)}
           placeholder="Search NUS course code, module title, or university"
-          className="flex-1 rounded-[10px] border border-border-input bg-white px-4 py-[13px] text-sm text-ink outline-none focus:border-accent"
+          className="min-w-0 flex-1 rounded-[10px] border border-border-input bg-white px-4 py-[13px] text-sm text-ink outline-none focus:border-accent"
         />
       </div>
 

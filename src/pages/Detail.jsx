@@ -98,7 +98,9 @@ export default function Detail() {
 
       <div className="flex flex-wrap items-stretch gap-5">
         <ModuleCard label="NUS module" courses={nusCourses} />
-        <div className="flex items-center text-xl text-border-input">⇄</div>
+        <div className="flex items-center justify-center text-xl text-border-input max-sm:w-full max-sm:rotate-90 max-sm:py-1">
+          ⇄
+        </div>
         <ModuleCard label="Overseas module" courses={puCourses} />
       </div>
 

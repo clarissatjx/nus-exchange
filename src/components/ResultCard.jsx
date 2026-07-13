@@ -6,7 +6,7 @@ export default function ResultCard({ record }) {
   const starred = isStarred(record);
 
   return (
-    <div className="flex items-center gap-3.5 rounded-xl border border-border bg-white py-4 px-[18px]">
+    <div className="flex items-center gap-3.5 rounded-xl border border-border bg-white py-4 px-[18px] max-sm:items-start">
       <Link
         to={`/mappings/${record._idx}`}
         className="flex min-w-0 flex-1 items-center gap-[18px] max-sm:flex-col max-sm:items-start max-sm:gap-2"
