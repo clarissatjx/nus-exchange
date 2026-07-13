@@ -26,10 +26,10 @@ a pre-built JSON dataset at runtime.
 ## Getting started
 
 ```
-npm install
-npm run dev       # dev server
-npm run build     # production build -> dist/
-npm run preview   # serve the production build locally
+pnpm install
+pnpm dev       # dev server
+pnpm build     # production build -> dist/
+pnpm preview   # serve the production build locally
 ```
 
 ## Project structure
@@ -54,7 +54,7 @@ after updating that file:
 
 ```
 pip3 install openpyxl
-npm run build-data
+pnpm build-data
 ```
 
 Partner university → country is a hand-maintained lookup in `data/build_data.py` (the source

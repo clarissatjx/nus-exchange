@@ -6,7 +6,7 @@
   "engines": {
     "node": "22.x"
   },
-  "packageManager": "npm@11.12.1",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
