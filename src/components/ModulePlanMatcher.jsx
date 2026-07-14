@@ -135,11 +135,11 @@ export default function ModulePlanMatcher({ records }) {
                       </div>
                     </Link>
                     <div className="flex flex-none items-center gap-3 max-sm:w-full max-sm:justify-between">
-                      <div className="text-right">
-                        <div className="text-sm font-bold text-accent">
+                      <div className="whitespace-nowrap text-[12.5px] text-muted-3">
+                        <span className="font-bold text-accent">
                           {r.matchCount}/{codes.length}
-                        </div>
-                        <div className="mt-0.5 text-[11px] text-muted-3">modules covered</div>
+                        </span>{' '}
+                        covered
                       </div>
                       <button
                         type="button"
