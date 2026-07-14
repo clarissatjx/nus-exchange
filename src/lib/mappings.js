@@ -66,6 +66,70 @@ export function groupUniversitiesByCountry(records) {
   });
 }
 
+export function parseModuleCodes(text) {
+  return [
+    ...new Set(
+      (text || '')
+        .split(/[\n,;]+/)
+        .map((s) => s.trim().toUpperCase())
+        .filter(Boolean),
+    ),
+  ];
+}
+
+// Ranks partner universities by how many of the given NUS module codes they
+// have an approved mapping for. Ties break on the university's total mapping
+// count (more approved mappings overall = more flexibility if the plan
+// changes), then alphabetically.
+export function matchUniversitiesByCodes(records, codes, limit = 5) {
+  const codeSet = new Set(codes.map((c) => c.trim().toUpperCase()).filter(Boolean));
+  if (codeSet.size === 0) return [];
+
+  const uniMap = new Map();
+  for (const r of records) {
+    if (!uniMap.has(r.partnerUni)) {
+      uniMap.set(r.partnerUni, {
+        partnerUni: r.partnerUni,
+        country: r.country,
+        matched: new Set(),
+        matchedRecords: [],
+        totalMappings: 0,
+      });
+    }
+    const entry = uniMap.get(r.partnerUni);
+    entry.totalMappings += 1;
+    let recordMatches = false;
+    for (const raw of [r.nusCourse1, r.nusCourse2]) {
+      const code = (raw || '').toUpperCase();
+      if (code && codeSet.has(code)) {
+        entry.matched.add(code);
+        recordMatches = true;
+      }
+    }
+    if (recordMatches) entry.matchedRecords.push(r);
+  }
+
+  const allCodes = [...codeSet];
+  return [...uniMap.values()]
+    .filter((u) => u.matched.size > 0)
+    .map((u) => ({
+      partnerUni: u.partnerUni,
+      country: u.country,
+      matchCount: u.matched.size,
+      totalMappings: u.totalMappings,
+      matchedCodes: allCodes.filter((c) => u.matched.has(c)),
+      missingCodes: allCodes.filter((c) => !u.matched.has(c)),
+      matchedRecords: u.matchedRecords,
+    }))
+    .sort(
+      (a, b) =>
+        b.matchCount - a.matchCount ||
+        b.totalMappings - a.totalMappings ||
+        a.partnerUni.localeCompare(b.partnerUni),
+    )
+    .slice(0, limit);
+}
+
 export function filterRecords(all, { query, faculty, country, uni, prefix }) {
   let recs = all;
   if (faculty && faculty !== 'All') recs = recs.filter((r) => r.faculty === faculty);

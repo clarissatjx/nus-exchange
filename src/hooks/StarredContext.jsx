@@ -31,11 +31,24 @@ export function StarredProvider({ children }) {
     });
   }, []);
 
+  const starMany = useCallback((records) => {
+    setStarred((prev) => {
+      const next = { ...prev };
+      for (const record of records) next[mappingKey(record)] = true;
+      try {
+        window.localStorage.setItem(STAR_KEY, JSON.stringify(next));
+      } catch {
+        // storage unavailable
+      }
+      return next;
+    });
+  }, []);
+
   const isStarred = useCallback((record) => !!starred[mappingKey(record)], [starred]);
 
   const value = useMemo(
-    () => ({ starred, isStarred, toggleStar, starredCount: Object.keys(starred).length }),
-    [starred, isStarred, toggleStar],
+    () => ({ starred, isStarred, toggleStar, starMany, starredCount: Object.keys(starred).length }),
+    [starred, isStarred, toggleStar, starMany],
   );
 
   return <StarredContext.Provider value={value}>{children}</StarredContext.Provider>;
