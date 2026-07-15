@@ -85,17 +85,19 @@ export default function Browse() {
           onClick={() => setMapOpen((open) => !open)}
           className="flex w-full items-center justify-between gap-4 px-4 py-3.5 text-left hover:bg-bg/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
         >
-          <span className="min-w-0">
-            <span className="block text-sm font-bold">Browse by continent</span>
-            <span className="mt-0.5 block text-[12.5px] text-muted-2">
-              {continent
-                ? `Showing universities in ${continent}.`
-                : 'Map filtering is optional — search is the fastest way to find a university.'}
-            </span>
-          </span>
-          <span aria-hidden="true" className="flex-none text-lg text-muted-2">
-            {mapOpen ? '⌃' : '⌄'}
-          </span>
+          <span className="text-sm font-bold">Browse by continent</span>
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 16 16"
+            className={`size-4 flex-none text-muted-2 transition-transform ${mapOpen ? '' : 'rotate-180'}`}
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+          >
+            <path d="m4 10 4-4 4 4" />
+          </svg>
         </button>
 
         {mapOpen && (
