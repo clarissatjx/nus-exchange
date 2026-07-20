@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMappings } from '../hooks/useMappings.js';
 import { computeStats, groupUniversitiesByCountry } from '../lib/mappings.js';
@@ -12,6 +12,7 @@ export default function Browse() {
   const [params, setParams] = useSearchParams();
   const query = params.get('q') || '';
   const continent = params.get('continent') || '';
+  const [mapOpen, setMapOpen] = useState(true);
 
   const stats = useMemo(() => (records ? computeStats(records) : null), [records]);
   const groups = useMemo(
@@ -76,12 +77,38 @@ export default function Browse() {
         className="w-full rounded-[10px] border border-border-input bg-white px-4 py-3 text-sm text-ink outline-none focus:border-accent"
       />
 
-      <div className="mt-6 rounded-xl border border-border bg-white p-4">
-        <WorldMap
-          activeContinent={continent}
-          continentsWithData={continentsWithData}
-          onSelectContinent={toggleContinent}
-        />
+      <div className="mt-6 overflow-hidden rounded-xl border border-border bg-white">
+        <button
+          type="button"
+          aria-expanded={mapOpen}
+          aria-controls="continent-map"
+          onClick={() => setMapOpen((open) => !open)}
+          className="flex w-full items-center justify-between gap-4 px-4 py-3.5 text-left hover:bg-bg/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
+        >
+          <span className="text-sm font-bold">Browse by continent</span>
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 16 16"
+            className={`size-4 flex-none text-muted-2 transition-transform ${mapOpen ? '' : 'rotate-180'}`}
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+          >
+            <path d="m4 10 4-4 4 4" />
+          </svg>
+        </button>
+
+        {mapOpen && (
+          <div id="continent-map" className="border-t border-border p-4">
+            <WorldMap
+              activeContinent={continent}
+              continentsWithData={continentsWithData}
+              onSelectContinent={toggleContinent}
+            />
+          </div>
+        )}
       </div>
 
       {(query || continent) && (
